@@ -101,7 +101,7 @@ const EditProfile = () => {
   return (
     <div>
       <div className="container">
-        <div className={"signin signin_wrapper"} style={{ margin: "100px" }}>
+        <div className={"signin signin_wrapper"} >
           <form onSubmit={formik.handleSubmit}>
             <h3>Edit Form</h3>
             <TextField

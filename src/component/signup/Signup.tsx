@@ -79,7 +79,7 @@ const Signup = () => {
   return (
     <div>
       <div className="container">
-        <div className={"signin signin_wrapper"} style={{ margin: "100px" }}>
+        <div className={"signin signin_wrapper"} >
           <form onSubmit={formik.handleSubmit}>
             <h3>SignUp Form</h3>
             <StyledTextField

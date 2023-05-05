@@ -7,7 +7,7 @@ const DashBoard = () => {
   const User = useAppSelector((state) => state.User);
   const dispatch = useAppDispatch();
   return (
-    <div style={{ padding: "2rem 3rem" }}>
+    <div className="tableContainer">
       <div style={{display:"flex" ,justifyContent:"space-between"}}>
         {" "}
         <h1>User List</h1>
