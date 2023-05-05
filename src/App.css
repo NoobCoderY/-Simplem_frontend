@@ -22,7 +22,7 @@
 }
 
 .signin_wrapper {
-  background: #0087ffde;
+  /* background: #0087ffde; */
 }
 
 .signin_success {
@@ -54,7 +54,7 @@ div.textField {
 }
 
 div.textField input {
-  font-size: 20px;
+  font-size: 0.9rem;
 }
 div.textField svg {
   font-size: 25px;
@@ -75,11 +75,15 @@ button {
 }
 .error_msg {
   color: #ff0000e0;
-  font-size: 17px;
-  font-weight: 700;
+  font-size: 11.5px;
+  font-weight: 300;
+  font-style: italic;
   margin: 0px;
   padding: 0px;
-  text-align: center;
+  text-align: left;
+  position: relative;
+  bottom: 6px;
+  left: 10px;
 }
 
 span.login {
