@@ -8,9 +8,9 @@ import {
 } from "react-router-dom";
 import Login from "./component/Login/Login";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-import Signup from "./component/signup/Signup";
-import DashBoard from "./component/Profile/DashBoard";
-import EditProfile from "./component/Profile/EditProfile";
+import Signup from "./component/Signup/Signup";
+import DashBoard from "./component/Dashboard/DashBoard";
+import EditProfile from "./component/Dashboard/EditProfile";
 import { useAppDispatch, useAppSelector } from "../src/Redux/Store";
 
 function App() {
