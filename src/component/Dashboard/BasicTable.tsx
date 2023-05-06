@@ -28,25 +28,46 @@ export default function BasicTable() {
   }
 
   useEffect(() => {
-    axios({
-      url: "http://localhost:8000/graphql",
-      method: "POST",
-      data: {
-        query: `
+  // axios({
+  //     url: "http://localhost:8000/graphql",
+  //     method: "POST",
+  //     data: {
+  //       query: `
+  //       query{
+  //         AllUserDetails{
+  //             _id,
+  //             email,
+  //             name
+  //         }
+  //       }
+  //         `,
+  //     },
+      
+  //   })
+  axios.post("http://localhost:8000/graphql",{
+    query:` 
         query{
-          AllUserDetails{
-              _id,
-              email,
-              name
+         AllUserDetails{
+             _id,
+             email,
+             name
           }
         }
-          `,
-      },
       
-    }).then((result: any) => {
+        `
+      }
+        ,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+  ).then((result: any) => {
       setuserData(result.data.data.AllUserDetails);
     });
   }, [recall]);
+  
 
   const navigate = useNavigate();
 

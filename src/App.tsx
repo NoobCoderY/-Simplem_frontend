@@ -17,7 +17,7 @@ function App() {
   const client = new ApolloClient({
     uri: "http://localhost:8000/graphql",
     cache: new InMemoryCache(),
-    // withCredentials: true,
+    credentials:"include"
   });
 
   const User = useAppSelector((state) => state.User);
@@ -27,7 +27,9 @@ function App() {
     }
     return <Navigate to="/" />;
   };
+
   return (
+    
     <ApolloProvider client={client}>
       <Router>
         <Routes>
@@ -37,10 +39,10 @@ function App() {
           <Route
             path="/profile"
             element={
-              <PrivateRoute>
-                {" "}
-                <DashBoard />{" "}
-              </PrivateRoute>
+              // <PrivateRoute>
+                
+                <DashBoard />
+              // </PrivateRoute>
             }
           />
           <Route path="/editprofile/:id" element={<EditProfile />} />

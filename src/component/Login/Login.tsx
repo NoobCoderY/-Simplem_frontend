@@ -15,12 +15,15 @@ const Login = () => {
   const notify = (err: string) => {
     toast(err);
   };
+ 
+
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
+    
     validationSchema: LoginSchema,
     onSubmit: (values) => {
       const add_data = async () => {
@@ -35,7 +38,8 @@ const Login = () => {
                 loginUser(email: $email, password: $password) {
                   _id
                   name
-                  email
+                  email,
+                  token
                 }
               }`,
               variables: {
@@ -54,6 +58,8 @@ const Login = () => {
             if (Object.keys(data.data).includes("errors")) {
               notify(data.data.errors[0].message);
             } else {
+              console.log(data);
+              
               dispatch(addUser(data.data.data.loginUser));
               notify("successfully logged in");
               setTimeout(() => {
