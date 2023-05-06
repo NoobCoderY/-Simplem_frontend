@@ -12,11 +12,19 @@ import { useNavigate } from "react-router";
 import { useMutation } from "@apollo/client";
 import { del_user } from "../../Graphql/Mutation";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 
 export default function BasicTable() {
   const [userData, setuserData] = useState([]);
   const [deleteUser, { error }] = useMutation(del_user);
   const [recall, setRecall] = useState(true);
+
+  const notify = (err: string) => {
+    toast(err);
+  };
   async function deleUser(id: string) {
     await deleteUser({
       variables: {
@@ -28,24 +36,11 @@ export default function BasicTable() {
   }
 
   useEffect(() => {
-  // axios({
-  //     url: "http://localhost:8000/graphql",
-  //     method: "POST",
-  //     data: {
-  //       query: `
-  //       query{
-  //         AllUserDetails{
-  //             _id,
-  //             email,
-  //             name
-  //         }
-  //       }
-  //         `,
-  //     },
-      
-  //   })
-  axios.post("http://localhost:8000/graphql",{
-    query:` 
+    axios
+      .post(
+        "http://localhost:8000/graphql",
+        {
+          query: ` 
         query{
          AllUserDetails{
              _id,
@@ -53,21 +48,25 @@ export default function BasicTable() {
              name
           }
         }
-      
-        `
-      }
-        ,
+        `,
+        },
         {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
           },
         }
-  ).then((result: any) => {
-      setuserData(result.data.data.AllUserDetails);
-    });
-  }, [recall]);
-  
+      )
+      .then((result: any) => {
+        if (Object.keys(result.data).includes("errors")) {
+          notify(result.data.errors[0].message);
+        } else {
+          setuserData(result.data.data.AllUserDetails);
+        }
+      })
+      
+      
+  },[recall]);
 
   const navigate = useNavigate();
 
@@ -75,55 +74,69 @@ export default function BasicTable() {
     navigate(`/editprofile/${id}`);
   }
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Id</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell>Edit</TableCell>
-            <TableCell align="center">Delete</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {userData?.map((arr_data: any, index: number) => (
-            <TableRow
-              key={arr_data._id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {arr_data._id}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {arr_data.name}
-              </TableCell>
-              <TableCell>{arr_data.email}</TableCell>
-              <TableCell>
-                <Button
-                  variant="contained"
-                  onClick={(e) => {
-                    NavigatePage(arr_data._id);
-                  }}
-                >
-                  Edit
-                </Button>
-              </TableCell>
-              <TableCell align="center">
-                <Button
-                  variant="contained"
-                  color="error"
-                  onClick={() => {
-                    deleUser(arr_data._id);
-                  }}
-                >
-                  Delete
-                </Button>
-              </TableCell>
+    <>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Id</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Edit</TableCell>
+              <TableCell align="center">Delete</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {userData?.map((arr_data: any, index: number) => (
+              <TableRow
+                key={arr_data._id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {arr_data._id}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  {arr_data.name}
+                </TableCell>
+                <TableCell>{arr_data.email}</TableCell>
+                <TableCell>
+                  <Button
+                    variant="contained"
+                    onClick={(e) => {
+                      NavigatePage(arr_data._id);
+                    }}
+                  >
+                    Edit
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => {
+                      deleUser(arr_data._id);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <ToastContainer
+        position="top-center"
+        autoClose={3001}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </>
   );
 }

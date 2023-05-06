@@ -17,11 +17,15 @@ function App() {
   const client = new ApolloClient({
     uri: "http://localhost:8000/graphql",
     cache: new InMemoryCache(),
-    credentials:"include"
+    credentials: "include",
   });
 
   const User = useAppSelector((state) => state.User);
+  console.log(User);
+  
   const PrivateRoute = ({ children }: any) => {
+    console.log(User._id);
+    
     if (User._id) {
       return children;
     }
@@ -29,20 +33,17 @@ function App() {
   };
 
   return (
-    
     <ApolloProvider client={client}>
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-
           <Route
             path="/profile"
             element={
-              // <PrivateRoute>
-                
+              <PrivateRoute>
                 <DashBoard />
-              // </PrivateRoute>
+              </PrivateRoute>
             }
           />
           <Route path="/editprofile/:id" element={<EditProfile />} />

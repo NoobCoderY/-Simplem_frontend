@@ -16,7 +16,6 @@ const Login = () => {
     toast(err);
   };
  
-
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -36,10 +35,9 @@ const Login = () => {
                 $password: String!
               ) {
                 loginUser(email: $email, password: $password) {
-                  _id
-                  name
+                  _id,
+                  name,
                   email,
-                  token
                 }
               }`,
               variables: {
@@ -58,9 +56,9 @@ const Login = () => {
             if (Object.keys(data.data).includes("errors")) {
               notify(data.data.errors[0].message);
             } else {
-              console.log(data);
-              
               dispatch(addUser(data.data.data.loginUser));
+              console.log(data.data.data.loginUser);
+              
               notify("successfully logged in");
               setTimeout(() => {
                 navigate("/profile");
