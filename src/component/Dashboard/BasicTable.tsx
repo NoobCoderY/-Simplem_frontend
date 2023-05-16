@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -15,8 +14,6 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
-
 export default function BasicTable() {
   const [userData, setuserData] = useState([]);
   const [deleteUser, { error }] = useMutation(del_user);
@@ -25,6 +22,7 @@ export default function BasicTable() {
   const notify = (err: string) => {
     toast(err);
   };
+
   async function deleUser(id: string) {
     await deleteUser({
       variables: {
@@ -63,16 +61,15 @@ export default function BasicTable() {
         } else {
           setuserData(result.data.data.AllUserDetails);
         }
-      })
-      
-      
-  },[recall]);
+      });
+  }, [recall]);
 
   const navigate = useNavigate();
 
   function NavigatePage(id: string): void {
     navigate(`/editprofile/${id}`);
   }
+  
   return (
     <>
       <TableContainer component={Paper}>

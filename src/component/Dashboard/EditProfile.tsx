@@ -19,24 +19,12 @@ type user = {
   email: string;
   password: string;
 };
-const EditProfile = () => {
 
+const EditProfile = () => {
   const User = useAppSelector((state) => state.User);
   const dispatch = useAppDispatch();
   const Navigate=useNavigate()
   
-  const StyledTextField = styled(TextField)({
-    '& fieldset': { border: '1px solid #B6B6B4' },
-    '& .MuiOutlinedInput-root': {
-      height: '42.51px',
-      '& fieldset': {
-        borderColor: '#B6B6B4',
-      },
-      '&.Mui-focused fieldset': {
-        border: '1px solid #B6B6B4',
-      }
-    },
-  })
   const notify = () => toast("Successfully Updated");
   const [userData, setuserData] = useState({
     name: "",
@@ -82,7 +70,6 @@ const EditProfile = () => {
             password: values.password,
           },
         }).then((data)=>{
-          console.log(data.data.userUpdate)
           if(User._id===data.data.userUpdate._id)
           {
                    dispatch(addUser(data.data.userUpdate)) 
@@ -124,7 +111,6 @@ const EditProfile = () => {
               onBlur={formik.handleBlur}
               value={formik.values.email}
             />
-
             {formik.touched.email && formik.errors.email ? (
               <div className="error_msg">{formik.errors.email}</div>
             ) : null}

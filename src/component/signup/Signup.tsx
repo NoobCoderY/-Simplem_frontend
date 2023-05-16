@@ -14,18 +14,7 @@ const Signup = () => {
   const navigate = useNavigate();
   // const [registerUser, { error, data }] = useMutation(register_User);
   const notify = (message: string) => toast(message);
-  // const StyledTextField = styled(TextField)({
-  //   "& fieldset": { border: "1px solid #B6B6B4" },
-  //   "& .MuiOutlinedInput-root": {
-  //     height: "42.51px",
-  //     "& fieldset": {
-  //       borderColor: "#B6B6B4",
-  //     },
-  //     "&.Mui-focused fieldset": {
-  //       border: "1px solid #B6B6B4",
-  //     },
-  //   },
-  // });
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -33,6 +22,7 @@ const Signup = () => {
       password: "",
       confirm_password: "",
     },
+    
     validationSchema: signUpSchema,
     onSubmit: (values) => {
       const add_data = async () => {

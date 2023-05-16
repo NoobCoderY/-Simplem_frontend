@@ -9,10 +9,8 @@ const DashBoard = () => {
   return (
     <div className="tableContainer">
       <div style={{display:"flex" ,justifyContent:"space-between"}}>
-        {" "}
         <h1>User List</h1>
-        <div
-        >
+        <div>
           <AiOutlineLogout  size={25} style={{cursor:"pointer"}} onClick={()=>{
             dispatch(logOut())}}/>
         </div>
