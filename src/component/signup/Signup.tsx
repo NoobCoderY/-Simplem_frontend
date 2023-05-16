@@ -14,18 +14,18 @@ const Signup = () => {
   const navigate = useNavigate();
   // const [registerUser, { error, data }] = useMutation(register_User);
   const notify = (message: string) => toast(message);
-  const StyledTextField = styled(TextField)({
-    "& fieldset": { border: "1px solid #B6B6B4" },
-    "& .MuiOutlinedInput-root": {
-      height: "42.51px",
-      "& fieldset": {
-        borderColor: "#B6B6B4",
-      },
-      "&.Mui-focused fieldset": {
-        border: "1px solid #B6B6B4",
-      },
-    },
-  });
+  // const StyledTextField = styled(TextField)({
+  //   "& fieldset": { border: "1px solid #B6B6B4" },
+  //   "& .MuiOutlinedInput-root": {
+  //     height: "42.51px",
+  //     "& fieldset": {
+  //       borderColor: "#B6B6B4",
+  //     },
+  //     "&.Mui-focused fieldset": {
+  //       border: "1px solid #B6B6B4",
+  //     },
+  //   },
+  // });
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -82,7 +82,7 @@ const Signup = () => {
         <div className={"signin signin_wrapper"} >
           <form onSubmit={formik.handleSubmit}>
             <h3>SignUp Form</h3>
-            <StyledTextField
+            <TextField
               name="name"
               type="text"
               placeholder="Name"
@@ -95,7 +95,7 @@ const Signup = () => {
             {formik.touched.name && formik.errors.name ? (
               <div className="error_msg">*{formik.errors.name}</div>
             ) : null}
-            <StyledTextField
+            <TextField
               name="email"
               type="text"
               placeholder="Email"
@@ -109,7 +109,7 @@ const Signup = () => {
               <div className="error_msg">*{formik.errors.email}</div>
             ) : null}
 
-            <StyledTextField
+            <TextField
               name="password"
               type="text"
               placeholder="Password"
@@ -121,7 +121,7 @@ const Signup = () => {
             {formik.touched.password && formik.errors.password ? (
               <div className="error_msg">*{formik.errors.password}</div>
             ) : null}
-            <StyledTextField
+            <TextField
               name="confirm_password"
               type="text"
               placeholder="confirm_password"

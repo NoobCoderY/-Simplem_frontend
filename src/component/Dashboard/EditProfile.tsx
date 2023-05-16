@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams} from "react-router";
 import { GET_USER_LIST_WITH_PASSWORD } from "../../Graphql/Queires";
 import { useQuery } from "@apollo/client";
-
 import { useNavigate } from "react-router";
 import { TextField,styled} from "@mui/material";
 import { useFormik } from "formik";
