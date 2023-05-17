@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useParams} from "react-router";
-import { GET_USER_LIST_WITH_PASSWORD } from "../../Graphql/Queires";
-import { useQuery } from "@apollo/client";
+import { useParams } from "react-router";
 import { useNavigate } from "react-router";
-import { TextField,styled} from "@mui/material";
+import { TextField, styled } from "@mui/material";
 import { useFormik } from "formik";
 import { EditProfileSchema } from "./EditProfileSchema";
 import axios from "axios";
-import { Update_User } from "../../Graphql/Mutation";
-import { useMutation } from "@apollo/client";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { addUser } from "../../Redux/UserSlice";
-import { useAppDispatch,useAppSelector } from "../../Redux/Store";
+import { useAppDispatch, useAppSelector } from "../../Redux/Store";
 
 type user = {
   name: string;
@@ -22,63 +17,55 @@ type user = {
 
 const EditProfile = () => {
   const User = useAppSelector((state) => state.User);
+  console.log(User);
   const dispatch = useAppDispatch();
-  const Navigate=useNavigate()
-  
-  const notify = () => toast("Successfully Updated");
-  const [userData, setuserData] = useState({
-    name: "",
-    email: " ",
-    password: "",
-  });
+  const Navigate = useNavigate();
+  const notify = (message: string) => toast(message);
+ 
   const { id } = useParams<Record<string, string | undefined>>();
-  useEffect(() => {
-    axios({
-      url: "",
-      method: "POST",
-      data: {
-        query: ` query 
-            {
-              UserDetails(_id:"${id}"){
-                  name,
-                  email,
-                  password
-                }
-              }`,
-      },
-    }).then((result: any) => {
-      setuserData(result.data.data.UserDetails[0]);
-    });
-  }, []);
-
-  const [userUpdate, { error, data }] = useMutation(Update_User);
-
   const formik = useFormik({
     initialValues: {
-      name: userData?.name,
-      email: userData?.email,
-      password: userData?.password,
+      name: "",
+      email: "",
+      password: ""
     },
     validationSchema: EditProfileSchema,
     onSubmit: (values) => {
       const add_data = async () => {
-        const data = await userUpdate({
-          variables: {
-            _id: id,
-            name: values.name,
-            email: values.email,
-            password: values.password,
-          },
-        }).then((data)=>{
-          if(User._id===data.data.userUpdate._id)
-          {
-                   dispatch(addUser(data.data.userUpdate)) 
+        await axios
+          .post("", {
+            query: `  mutation UserUpdate(
+          $_id: String
+          $name: String!
+          $email: String!
+          $password: String!
+        ) {
+          UserUpdate(_id: $_id, name: $name, email: $email, password: $password) {
+            _id
+            name
+            email
           }
-          notify();
-          setTimeout(()=>{
-            Navigate("/profile")
-          },1000)
-        });
+        }`,
+            variables: {
+              _id: id,
+              name: values.name,
+              email: values.email,
+              password: values.password,
+            },
+          })
+          .then((data) => {
+            if (Object.keys(data.data).includes("errors")) {
+              notify(data.data.errors[0].message);
+            } else {
+              if (User._id === data.data.data.UserUpdate._id) {
+                dispatch(addUser(data.data.data.UserUpdate));
+              }
+              notify("successfully updated");
+              setTimeout(() => {
+                Navigate("/profile");
+              }, 1000);
+            }
+          });
       };
       add_data();
     },
@@ -87,7 +74,7 @@ const EditProfile = () => {
   return (
     <div>
       <div className="container">
-        <div className={"signin signin_wrapper"} >
+        <div className={"signin signin_wrapper"}>
           <form onSubmit={formik.handleSubmit}>
             <h3>Edit Form</h3>
             <TextField

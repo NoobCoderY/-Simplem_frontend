@@ -1,7 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const GET_USER_LIST =(id:string|undefined
-    )=>{
+export const GET_USER_LIST =(id:string|undefined)=>{
    return  gql
     ` query 
     {
@@ -12,8 +11,7 @@ export const GET_USER_LIST =(id:string|undefined
       }`
     }
 
-    export const GET_USER_LIST_WITH_PASSWORD =(id:string|undefined
-        )=>{
+    export const GET_USER_LIST_WITH_PASSWORD =(id:string|undefined )=>{
        return  gql
         ` query 
         {
