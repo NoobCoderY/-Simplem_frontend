@@ -13,22 +13,36 @@ import { Del_user } from "../../Graphql/Mutation";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Watch } from "react-loader-spinner";
+import { logOut } from "../../Redux/UserSlice";
+import { useAppDispatch, useAppSelector } from "../../Redux/Store";
 
 export default function BasicTable() {
   const [userData, setuserData] = useState([]);
   const [deleteUser, { error }] = useMutation(Del_user);
   const [recall, setRecall] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const User = useAppSelector((state) => state.User);
+  const dispatch = useAppDispatch();
 
   const notify = (err: string) => {
     toast(err);
   };
 
   async function deleUser(id: string) {
+    setIsLoading(true);
     await deleteUser({
       variables: {
         _id: id,
       },
     }).then(() => {
+      //loader logic
+      // setTimeout(() => {
+      //   setIsLoading(false);
+      // }, 1500);
+      // if (id === User._id) {
+      //   dispatch(logOut);
+      // }
       setRecall(!recall);
     });
   }
@@ -68,6 +82,7 @@ export default function BasicTable() {
   function NavigatePage(id: string): void {
     navigate(`/editprofile/${id}`);
   }
+  console.log(isLoading);
 
   return (
     <>
@@ -115,6 +130,21 @@ export default function BasicTable() {
                   >
                     Delete
                   </Button>
+                </TableCell>
+                <TableCell align="center">
+                  {isLoading && (
+                    <div className="loader">
+                      <Watch
+                        height="40"
+                        width="40"
+                        radius="38"
+                        color="#4fa94d"
+                        ariaLabel="watch-loading"
+                        wrapperStyle={{}}
+                        visible={true}
+                      />
+                    </div>
+                  )}
                 </TableCell>
               </TableRow>
             ))}

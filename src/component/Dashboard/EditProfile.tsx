@@ -16,8 +16,7 @@ type user = {
 };
 
 const EditProfile = () => {
-  const User = useAppSelector((state) => state.User);
-  console.log(User);
+  const User = useAppSelector((state) => state.User)
   const dispatch = useAppDispatch();
   const Navigate = useNavigate();
   const notify = (message: string) => toast(message);
