@@ -34,7 +34,7 @@ const EditProfile = () => {
   const { id } = useParams<Record<string, string | undefined>>();
   useEffect(() => {
     axios({
-      url: "http://localhost:8000/graphql",
+      url: "",
       method: "POST",
       data: {
         query: ` query 

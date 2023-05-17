@@ -1,8 +1,8 @@
 import { useQuery, gql } from "@apollo/client";
 
-export const register_User = gql`
-  mutation registerUser($name: String!, $email: String!, $password: String!) {
-    registerUser(name: $name, email: $email, password: $password) {
+export const Register_User = gql`
+  mutation RegisterUser($name: String!, $email: String!, $password: String!) {
+    RegisterUser(name: $name, email: $email, password: $password) {
       _id
       name
       email
@@ -11,13 +11,13 @@ export const register_User = gql`
 `;
 
 export const Update_User = gql`
-  mutation userUpdate(
+  mutation UserUpdate(
     $_id: String
     $name: String!
     $email: String!
     $password: String!
   ) {
-    userUpdate(_id: $_id, name: $name, email: $email, password: $password) {
+    UserUpdate(_id: $_id, name: $name, email: $email, password: $password) {
       _id
       name
       email
@@ -26,11 +26,11 @@ export const Update_User = gql`
 `;
 
 export const Login_User = gql`
-  mutation loginUser(
+  mutation LoginUser(
     $email: String!
     $password: String!
   ) {
-    loginUser(email: $email, password: $password) {
+    LoginUser(email: $email, password: $password) {
       _id
       name
       email
@@ -38,9 +38,9 @@ export const Login_User = gql`
   }
 `;
 
-export const del_user = gql`
-  mutation deleteUser($_id: String!) {
-    deleteUser(_id: $_id) {
+export const Del_user = gql`
+  mutation DeleteUser($_id: String!) {
+    DeleteUser(_id: $_id) {
       message
     }
   }

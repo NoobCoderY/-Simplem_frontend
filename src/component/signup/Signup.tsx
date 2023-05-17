@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import { signUpSchema } from "./SignUpSchema";
-import { TextField, InputAdornment, IconButton, styled } from "@mui/material";
+import { TextField} from "@mui/material";
 import { useNavigate } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,7 +12,6 @@ const Signup = () => {
   const User = useAppSelector((state) => state.User);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  // const [registerUser, { error, data }] = useMutation(register_User);
   const notify = (message: string) => toast(message);
 
   const formik = useFormik({
@@ -28,10 +27,10 @@ const Signup = () => {
       const add_data = async () => {
         await axios
           .post(
-            "http://localhost:8000/graphql",
+            "",
             {
-              query: ` mutation registerUser($name: String!, $email: String!, $password: String!) {
-          registerUser(name: $name, email: $email, password: $password) {
+              query: ` mutation RegisterUser($name: String!, $email: String!, $password: String!) {
+          RegisterUser(name: $name, email: $email, password: $password) {
             _id
             name
             email
@@ -54,7 +53,7 @@ const Signup = () => {
             if (Object.keys(data.data).includes("errors")) {
               notify(data.data.errors[0].message);
             } else {
-              dispatch(addUser(data.data.data.registerUser));
+              dispatch(addUser(data.data.data.RegisterUser));
               notify("successfully signed up");
               setTimeout(() => {
                 navigate("/profile");

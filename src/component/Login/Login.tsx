@@ -28,13 +28,13 @@ const Login = () => {
       const add_data = async () => {
         const data = await axios
           .post(
-            "http://localhost:8000/graphql",
+            "",
             {
-              query: ` mutation loginUser(
+              query: ` mutation LoginUser(
                 $email: String!
                 $password: String!
               ) {
-                loginUser(email: $email, password: $password) {
+                LoginUser(email: $email, password: $password) {
                   _id,
                   name,
                   email,
@@ -56,9 +56,7 @@ const Login = () => {
             if (Object.keys(data.data).includes("errors")) {
               notify(data.data.errors[0].message);
             } else {
-              dispatch(addUser(data.data.data.loginUser));
-              console.log(data.data.data.loginUser);
-              
+              dispatch(addUser(data.data.data.LoginUser));
               notify("successfully logged in");
               setTimeout(() => {
                 navigate("/profile");

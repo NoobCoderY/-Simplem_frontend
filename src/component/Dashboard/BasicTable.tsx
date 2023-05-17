@@ -9,14 +9,14 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router";
 import { useMutation } from "@apollo/client";
-import { del_user } from "../../Graphql/Mutation";
+import { Del_user } from "../../Graphql/Mutation";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function BasicTable() {
   const [userData, setuserData] = useState([]);
-  const [deleteUser, { error }] = useMutation(del_user);
+  const [deleteUser, { error }] = useMutation(Del_user);
   const [recall, setRecall] = useState(true);
 
   const notify = (err: string) => {
@@ -32,11 +32,10 @@ export default function BasicTable() {
       setRecall(!recall);
     });
   }
-
   useEffect(() => {
     axios
       .post(
-        "http://localhost:8000/graphql",
+        "",
         {
           query: ` 
         query{
@@ -69,7 +68,7 @@ export default function BasicTable() {
   function NavigatePage(id: string): void {
     navigate(`/editprofile/${id}`);
   }
-  
+
   return (
     <>
       <TableContainer component={Paper}>
