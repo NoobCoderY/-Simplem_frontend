@@ -21,7 +21,7 @@ export default function BasicTable() {
   const [userData, setuserData] = useState([]);
   const [deleteUser, { error }] = useMutation(Del_user);
   const [recall, setRecall] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<any>();
   const User = useAppSelector((state) => state.User);
   const dispatch = useAppDispatch();
 
@@ -29,20 +29,23 @@ export default function BasicTable() {
     toast(err);
   };
 
-  async function deleUser(id: string) {
-    setIsLoading(true);
+  async function deleUser(id: string, index: number) {
+    const newArray = [...isLoading];
+    newArray[index] = true;
+    setIsLoading(newArray);
     await deleteUser({
       variables: {
         _id: id,
       },
     }).then(() => {
-      //loader logic
-      // setTimeout(() => {
-      //   setIsLoading(false);
-      // }, 1500);
-      // if (id === User._id) {
-      //   dispatch(logOut);
-      // }
+      setTimeout(() => {
+        const newArray = [...isLoading];
+        newArray[index] = false;
+        setIsLoading(newArray);
+      }, 1500);
+      if (id === User._id) {
+        dispatch(logOut());
+      }
       setRecall(!recall);
     });
   }
@@ -72,6 +75,9 @@ export default function BasicTable() {
         if (Object.keys(result.data).includes("errors")) {
           notify(result.data.errors[0].message);
         } else {
+          let length = result.data.data.AllUserDetails.length;
+          const myArray = new Array(length).fill(false);
+          setIsLoading(myArray);
           setuserData(result.data.data.AllUserDetails);
         }
       });
@@ -125,14 +131,14 @@ export default function BasicTable() {
                     variant="contained"
                     color="error"
                     onClick={() => {
-                      deleUser(arr_data._id);
+                      deleUser(arr_data._id, index);
                     }}
                   >
                     Delete
                   </Button>
                 </TableCell>
                 <TableCell align="center">
-                  {isLoading && (
+                  {isLoading[index] && (
                     <div className="loader">
                       <Watch
                         height="40"
